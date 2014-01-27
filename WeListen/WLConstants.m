@@ -9,3 +9,4 @@
 #import "WLConstants.h"
 
 NSString *const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
+NSString *const kShowSongsViewControllerSegueIdentifier = @"showSongsVC";

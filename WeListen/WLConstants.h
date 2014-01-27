@@ -7,3 +7,5 @@
 //
 
 FOUNDATION_EXPORT NSString *const kShowPlayingViewControllerSegueIdentifier;
+
+FOUNDATION_EXPORT NSString *const kShowSongsViewControllerSegueIdentifier;

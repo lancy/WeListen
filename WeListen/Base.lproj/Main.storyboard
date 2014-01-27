@@ -4,26 +4,56 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Artists View Controller-->
         <scene sceneID="7Cm-Gc-TS2">
             <objects>
-                <viewController id="j6o-u4-KOC" sceneMemberID="viewController">
+                <viewController id="j6o-u4-KOC" customClass="WLArtistsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Er3-8O-rj0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wPZ-1E-I5T">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WLArtistCell" rowHeight="80" id="Jgu-Pc-rLi" customClass="WLArtistCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wPZ-1E-I5T" id="6XU-Ys-17W">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jgu-Pc-rLi" id="SOs-Se-vAH">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6us-i1-hgP">
+                                            <rect key="frame" x="15" y="5" width="70" height="70"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Beyonce" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Noj-NC-DHc">
+                                            <rect key="frame" x="93" y="20" width="194" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20 songs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exQ-Lf-tn9">
+                                            <rect key="frame" x="93" y="38" width="194" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="artworkImageView" destination="6us-i1-hgP" id="gNf-TE-Yka"/>
+                                    <outlet property="descriptionLabel" destination="exQ-Lf-tn9" id="Cz1-Xw-Jyr"/>
+                                    <outlet property="titleLabel" destination="Noj-NC-DHc" id="21z-Dt-xLx"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" id="HAT-v7-q4s"/>
+                    <connections>
+                        <outlet property="tableView" destination="Er3-8O-rj0" id="Jp6-iC-7Jy"/>
+                        <segue destination="pmw-1G-tx3" kind="push" identifier="showSongsVC" id="mId-Lf-kZi"/>
+                        <segue destination="O7D-aW-rNz" kind="push" identifier="showPlayingVC" id="Qgv-Pn-kkF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrc-TV-Lhx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -40,8 +70,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="6Lx-SH-LfR" kind="relationship" relationship="viewControllers" id="EJg-ZE-FF5"/>
                         <segue destination="m7e-Sq-pB0" kind="relationship" relationship="viewControllers" id="dFL-bx-frq"/>
+                        <segue destination="6Lx-SH-LfR" kind="relationship" relationship="viewControllers" id="EJg-ZE-FF5"/>
                         <segue destination="22S-v7-lgM" kind="relationship" relationship="viewControllers" id="lEz-qG-HC7"/>
                     </connections>
                 </tabBarController>
@@ -315,7 +345,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ShE-w5-dDg"/>
-        <segue reference="tJn-0X-sIl"/>
+        <segue reference="mId-Lf-kZi"/>
+        <segue reference="Qgv-Pn-kkF"/>
     </inferredMetricsTieBreakers>
 </document>

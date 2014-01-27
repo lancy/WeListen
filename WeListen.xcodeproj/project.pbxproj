@@ -29,6 +29,9 @@
 		BF9FC6BB1896934600EB9A2F /* WLPlaylistViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6BA1896934600EB9A2F /* WLPlaylistViewItem.m */; };
 		BF9FC6BE1896987700EB9A2F /* WLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6BD1896987700EB9A2F /* WLConstants.m */; };
 		BF9FC6C118969E9A00EB9A2F /* WLPlayerAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6C018969E9A00EB9A2F /* WLPlayerAgent.m */; };
+		BF9FC6C51896A84600EB9A2F /* WLArtistsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6C41896A84600EB9A2F /* WLArtistsViewController.m */; };
+		BF9FC6C91896A88600EB9A2F /* WLArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6C81896A88600EB9A2F /* WLArtistCell.m */; };
+		BF9FC6CC1896A8A600EB9A2F /* WLArtistViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9FC6CB1896A8A600EB9A2F /* WLArtistViewItem.m */; };
 		BFEEB0641894F62A005B559B /* WLPlayingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEEB0631894F62A005B559B /* WLPlayingViewController.m */; };
 		D312F5514E104E52A9F59A80 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E58FCD8178B4478C8647819B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -79,6 +82,12 @@
 		BF9FC6BD1896987700EB9A2F /* WLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLConstants.m; sourceTree = "<group>"; };
 		BF9FC6BF18969E9A00EB9A2F /* WLPlayerAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPlayerAgent.h; sourceTree = "<group>"; };
 		BF9FC6C018969E9A00EB9A2F /* WLPlayerAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPlayerAgent.m; sourceTree = "<group>"; };
+		BF9FC6C31896A84600EB9A2F /* WLArtistsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArtistsViewController.h; sourceTree = "<group>"; };
+		BF9FC6C41896A84600EB9A2F /* WLArtistsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArtistsViewController.m; sourceTree = "<group>"; };
+		BF9FC6C71896A88600EB9A2F /* WLArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArtistCell.h; sourceTree = "<group>"; };
+		BF9FC6C81896A88600EB9A2F /* WLArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArtistCell.m; sourceTree = "<group>"; };
+		BF9FC6CA1896A8A600EB9A2F /* WLArtistViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArtistViewItem.h; sourceTree = "<group>"; };
+		BF9FC6CB1896A8A600EB9A2F /* WLArtistViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArtistViewItem.m; sourceTree = "<group>"; };
 		BFEEB0621894F62A005B559B /* WLPlayingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPlayingViewController.h; sourceTree = "<group>"; };
 		BFEEB0631894F62A005B559B /* WLPlayingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPlayingViewController.m; sourceTree = "<group>"; };
 		E4F129A5515047E591280EC8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -204,6 +213,7 @@
 				BFEEB0651894F642005B559B /* NowPlaying */,
 				BF49B5B618946E1F0034B7AC /* Songs */,
 				BF9FC6B51896922300EB9A2F /* Playlists */,
+				BF9FC6C61896A84C00EB9A2F /* Artists */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -230,6 +240,19 @@
 				BF9FC6C018969E9A00EB9A2F /* WLPlayerAgent.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		BF9FC6C61896A84C00EB9A2F /* Artists */ = {
+			isa = PBXGroup;
+			children = (
+				BF9FC6C31896A84600EB9A2F /* WLArtistsViewController.h */,
+				BF9FC6C41896A84600EB9A2F /* WLArtistsViewController.m */,
+				BF9FC6C71896A88600EB9A2F /* WLArtistCell.h */,
+				BF9FC6C81896A88600EB9A2F /* WLArtistCell.m */,
+				BF9FC6CA1896A8A600EB9A2F /* WLArtistViewItem.h */,
+				BF9FC6CB1896A8A600EB9A2F /* WLArtistViewItem.m */,
+			);
+			name = Artists;
 			sourceTree = "<group>";
 		};
 		BFEEB0651894F642005B559B /* NowPlaying */ = {
@@ -377,11 +400,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9FC6B1189690FF00EB9A2F /* UIViewController+NowPlayingButton.m in Sources */,
+				BF9FC6CC1896A8A600EB9A2F /* WLArtistViewItem.m in Sources */,
+				BF9FC6C51896A84600EB9A2F /* WLArtistsViewController.m in Sources */,
 				BFEEB0641894F62A005B559B /* WLPlayingViewController.m in Sources */,
 				BF9FC6B81896933200EB9A2F /* WLPlaylistCell.m in Sources */,
 				BF49B5B518946E1C0034B7AC /* WLSongViewItem.m in Sources */,
 				BF49B5AF189468060034B7AC /* WLSongsViewController.m in Sources */,
 				BF49B5B218946E040034B7AC /* WLSongCell.m in Sources */,
+				BF9FC6C91896A88600EB9A2F /* WLArtistCell.m in Sources */,
 				BF9FC6BB1896934600EB9A2F /* WLPlaylistViewItem.m in Sources */,
 				BF9FC6BE1896987700EB9A2F /* WLConstants.m in Sources */,
 				BF9FC6B41896922000EB9A2F /* WLPlaylistsViewController.m in Sources */,

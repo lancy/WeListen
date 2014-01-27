@@ -23,8 +23,8 @@
 - (void)cellWillAppear {
     [super cellWillAppear];
     MPMediaPlaylist *playlist = self.item.mediaPlaylist;
-    MPMediaItem *firstSong = [[playlist items] firstObject];
-    MPMediaItemArtwork *artwork = [firstSong valueForProperty:MPMediaItemPropertyArtwork];
+    MPMediaItem *item = [playlist representativeItem];
+    MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
     self.artworkImageView.image = [artwork imageWithSize:self.artworkImageView.size];
     self.titleLabel.text = [playlist valueForProperty:MPMediaPlaylistPropertyName];
 }

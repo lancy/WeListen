@@ -8,8 +8,8 @@
 
 #import "WLSongsViewController.h"
 #import "RETableViewManager.h"
-#import "WLPlayingViewController.h"
 #import "WLSongViewItem.h"
+#import "WLPlayingViewController.h"
 #import "UIViewController+NowPlayingButton.h"
 @import MediaPlayer;
 

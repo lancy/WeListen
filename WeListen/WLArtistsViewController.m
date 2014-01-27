@@ -1,30 +1,28 @@
 //
-//  WLPlaylistsViewController.m
+//  WLArtistsViewController.m
 //  WeListen
 //
 //  Created by Lancy on 27/1/14.
 //  Copyright (c) 2014 GraceLancy. All rights reserved.
 //
 
-#import "WLPlaylistsViewController.h"
-#import "UIViewController+NowPlayingButton.h"
+#import "WLArtistsViewController.h"
 #import "RETableViewManager.h"
-#import "WLPlaylistViewItem.h"
-#import "WLPlayingViewController.h"
+#import "UIViewController+NowPlayingButton.h"
+#import "WLArtistViewItem.h"
 #import "WLSongsViewController.h"
 @import MediaPlayer;
 
-@interface WLPlaylistsViewController ()
-
+@interface WLArtistsViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) RETableViewManager *tableViewManager;
-@property (strong, nonatomic) NSArray *playlistsCollections;
-@property (strong, nonatomic) WLPlaylistViewItem *currentSelectedItem;
+@property (strong, nonatomic) WLArtistViewItem *currentSelectedItem;
+
+@property (strong, nonatomic) NSArray *artistsCollections;
 
 @end
 
-
-@implementation WLPlaylistsViewController
+@implementation WLArtistsViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -32,32 +30,36 @@
     [self updateNowPlayingButton];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self setupDatas];
     [self setupUserInterface];
 }
 
 - (void)setupDatas {
-    MPMediaQuery *query = [MPMediaQuery playlistsQuery];
-    self.playlistsCollections = [query collections];
+    MPMediaQuery *artistsQuery = [MPMediaQuery artistsQuery];
+    self.artistsCollections = [artistsQuery collections];
 }
 
+
 - (void)setupUserInterface {
-    self.title = @"Playlist";
+    if (!self.title) {
+        self.title = @"Artists";
+    }
     [self updateNowPlayingButton];
     [self setupTableView];
 }
 
 - (void)setupTableView {
     self.tableViewManager = [[RETableViewManager alloc] initWithTableView:self.tableView];
-    self.tableViewManager[@"WLPlaylistViewItem"] = @"WLPlaylistCell";
+    self.tableViewManager[@"WLArtistViewItem"] = @"WLArtistCell";
     RETableViewSection *section = [RETableViewSection section];
-    for (MPMediaPlaylist *playlist in self.playlistsCollections) {
-        WLPlaylistViewItem *item = [[WLPlaylistViewItem alloc] init];
-        item.cellIdentifier = @"WLPlaylistCell";
-        item.mediaPlaylist = playlist;
-        [item setSelectionHandler:^(WLPlaylistViewItem *item) {
+    for (MPMediaItemCollection *artistCollection in self.artistsCollections) {
+        WLArtistViewItem *item = [[WLArtistViewItem alloc] init];
+        item.cellIdentifier = @"WLArtistCell";
+        item.artistCollection = artistCollection;
+        [item setSelectionHandler:^(WLArtistViewItem *item) {
             self.currentSelectedItem = item;
             [self performSegueWithIdentifier:kShowSongsViewControllerSegueIdentifier sender:item];
         }];
@@ -71,9 +73,10 @@
     } else if ([segue.identifier isEqualToString:kShowSongsViewControllerSegueIdentifier]) {
         WLSongsViewController *vc = segue.destinationViewController;
         vc.hidesBottomBarWhenPushed = YES;
-        MPMediaPlaylist *playlist = self.currentSelectedItem.mediaPlaylist;
-        vc.songsItems = playlist.items;
-        vc.title = [playlist valueForKey:MPMediaPlaylistPropertyName];
+        MPMediaItemCollection *artistCollection = self.currentSelectedItem.artistCollection;
+        MPMediaItem *item = artistCollection.representativeItem;
+        vc.songsItems = [artistCollection items];
+        vc.title = [item valueForKey:MPMediaItemPropertyArtist];
     }
 }
 @end
