@@ -11,7 +11,7 @@
 
 @interface WLPlayingViewController : UIViewController
 
-@property (strong, nonatomic) MPMediaItem *nowPlayingItem;
-@property (strong, nonatomic) MPMediaItemCollection *mediaItemCollection;
+@property (strong, nonatomic) MPMediaItem *selectedItem;
+@property (strong, nonatomic) MPMediaItemCollection *selectedItemCollection;
 
 @end

@@ -10,16 +10,13 @@
 #import "RETableViewManager.h"
 #import "WLPlayingViewController.h"
 #import "WLSongViewItem.h"
+#import "UIViewController+NowPlayingButton.h"
 @import MediaPlayer;
-
-NSString * const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
 
 @interface WLSongsViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) RETableViewManager *tableViewManager;
-@property (strong, nonatomic) NSArray *songsItems;
-
 @property (strong, nonatomic) WLSongViewItem *currentSelectedItem;
 
 @end
@@ -27,6 +24,7 @@ NSString * const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
 @implementation WLSongsViewController
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.currentSelectedItem deselectRowAnimated:animated];
     [self updateNowPlayingButton];
 }
@@ -38,12 +36,16 @@ NSString * const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
 }
 
 - (void)setupDatas {
-    MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    self.songsItems = [songsQuery items];
+    if (!self.songsItems) {
+        MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
+        self.songsItems = [songsQuery items];
+    }
 }
 
 - (void)setupUserInterface {
-    self.title = @"Songs";
+    if (!self.title) {
+        self.title = @"Songs";
+    }
     [self updateNowPlayingButton];
     [self setupTableView];
 }
@@ -65,19 +67,7 @@ NSString * const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
     [self.tableViewManager addSection:section];
 }
 
-- (void)updateNowPlayingButton {
-    MPMusicPlayerController *player = [MPMusicPlayerController applicationMusicPlayer];
-    if (player.nowPlayingItem != nil) {
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Now Playing" style:UIBarButtonItemStyleBordered target:self action:@selector(nowPlayingButtonPressed:)];
-        [self.navigationItem setRightBarButtonItem:rightItem animated:YES];
-    } else {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-    }
-}
 
-- (void)nowPlayingButtonPressed:(id)sender {
-    [self performSegueWithIdentifier:kShowPlayingViewControllerSegueIdentifier sender:nil];
-}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kShowPlayingViewControllerSegueIdentifier]) {
@@ -85,12 +75,8 @@ NSString * const kShowPlayingViewControllerSegueIdentifier = @"showPlayingVC";
             WLSongViewItem *item = sender;
             MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:self.songsItems];
             WLPlayingViewController *vc = segue.destinationViewController;
-            vc.mediaItemCollection = collection;
-            vc.nowPlayingItem = item.mediaItem;
-        } else {
-            MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:self.songsItems];
-            WLPlayingViewController *vc = segue.destinationViewController;
-            vc.mediaItemCollection = collection;
+            vc.selectedItemCollection = collection;
+            vc.selectedItem = item.mediaItem;
         }
     }
 }

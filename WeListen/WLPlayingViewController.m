@@ -7,6 +7,7 @@
 //
 
 #import "WLPlayingViewController.h"
+#import "WLPlayerAgent.h"
 
 @interface WLPlayingViewController ()
 @property (strong, nonatomic) UILabel *indexLabel;
@@ -37,17 +38,20 @@
 
 - (void)setupInterface {
     [self setupNavagationBar];
-    [self updateInterfaceWithMediaItem:self.nowPlayingItem];
+    [self updateInterfaceWithMediaItem:[WLPlayerAgent sharedAgent].nowPlayingItem];
 }
 
 - (void)setupPlayer {
+    WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
+    
     self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-    if (self.mediaItemCollection && self.nowPlayingItem) {
-        [self.musicPlayer setQueueWithItemCollection:self.mediaItemCollection];
-        [self.musicPlayer setNowPlayingItem:self.nowPlayingItem];
+    if (self.selectedItemCollection && self.selectedItem) {
+        [self.musicPlayer setQueueWithItemCollection:self.selectedItemCollection];
+        [self.musicPlayer setNowPlayingItem:self.selectedItem];
         [self.musicPlayer play];
-    } else {
-        self.nowPlayingItem = [self.musicPlayer nowPlayingItem];
+        
+        agent.nowPlayingItem = self.selectedItem;
+        agent.nowPlayingItemCollection = self.selectedItemCollection;
     }
     [self.musicPlayer beginGeneratingPlaybackNotifications];
     [self observeNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification selector:@selector(handleNowPlayingItemDidChangedNotification:)];
@@ -65,8 +69,9 @@
     self.artworkImageView.image = [artwork imageWithSize:self.artworkImageView.size];
     self.titleLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
     self.descriptionLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
-    NSUInteger index = [[self.mediaItemCollection items] indexOfObject:self.nowPlayingItem];
-    [self updateIndexLabelWithIndex:index count:self.mediaItemCollection.count];
+    WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
+    NSUInteger index = [[agent.nowPlayingItemCollection items] indexOfObject:agent.nowPlayingItem];
+    [self updateIndexLabelWithIndex:index count:agent.nowPlayingItemCollection.count];
     [self updatePlaybackButton];
     [self updateRepeatButton];
     [self updateShuffleButton];
@@ -206,8 +211,9 @@
 
 - (void)handleNowPlayingItemDidChangedNotification:(NSNotification *)notification {
     if (notification.object == self.musicPlayer) {
-        self.nowPlayingItem = [self.musicPlayer nowPlayingItem];
-        [self updateInterfaceWithMediaItem:self.nowPlayingItem];
+        WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
+        agent.nowPlayingItem = [self.musicPlayer nowPlayingItem];
+        [self updateInterfaceWithMediaItem:agent.nowPlayingItem];
     }
 }
 

@@ -10,4 +10,6 @@
 
 @interface WLSongsViewController : UIViewController
 
+@property (strong, nonatomic) NSArray *songsItems;
+
 @end

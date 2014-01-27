@@ -23,6 +23,7 @@
 }
 
 - (void)cellWillAppear {
+    [super cellWillAppear];
     MPMediaItem *item = self.item.mediaItem;
     MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
     self.artworkImageView.image = [artwork imageWithSize:self.artworkImageView.size];

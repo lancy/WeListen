@@ -49,26 +49,48 @@
             </objects>
             <point key="canvasLocation" x="15" y="577"/>
         </scene>
-        <!--View Controller-->
+        <!--Playlists View Controller - Playlists-->
         <scene sceneID="Rd7-sc-4hF">
             <objects>
-                <viewController id="8cl-Kg-hig" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ebY-N9-lFY">
+                <viewController id="8cl-Kg-hig" customClass="WLPlaylistsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="ebY-N9-lFY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ljO-HJ-w1I">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WLPlaylistCell" rowHeight="80" id="ljO-HJ-w1I" customClass="WLPlaylistCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ljO-HJ-w1I" id="JhS-xJ-ppa">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eht-Ts-NlI">
+                                            <rect key="frame" x="15" y="5" width="70" height="70"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recents Play" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Liq-Bb-xAj">
+                                            <rect key="frame" x="93" y="29" width="194" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="artworkImageView" destination="Eht-Ts-NlI" id="Qve-w7-DJx"/>
+                                    <outlet property="titleLabel" destination="Liq-Bb-xAj" id="9n1-Iq-Gbd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Sb3-HV-kXp"/>
+                    <navigationItem key="navigationItem" title="Playlists" id="Sb3-HV-kXp"/>
+                    <connections>
+                        <outlet property="tableView" destination="ebY-N9-lFY" id="uK6-X9-mkq"/>
+                        <segue destination="pmw-1G-tx3" kind="push" identifier="showSongsVC" id="ShE-w5-dDg"/>
+                        <segue destination="O7D-aW-rNz" kind="push" identifier="showPlayingVC" id="VAn-wM-KZ1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q0L-KR-ODc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -292,4 +314,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="ShE-w5-dDg"/>
+        <segue reference="tJn-0X-sIl"/>
+    </inferredMetricsTieBreakers>
 </document>
