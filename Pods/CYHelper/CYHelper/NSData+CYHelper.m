@@ -14,7 +14,7 @@
 - (NSData *)MD5
 {
     unsigned char md5Result[CC_MD5_DIGEST_LENGTH + 1];
-    CC_MD5([self bytes], [self length], md5Result);
+    CC_MD5([self bytes], (CC_LONG)[self length], md5Result);
 
     NSMutableData * retData = [[NSMutableData alloc] init];
     if ( nil == retData )

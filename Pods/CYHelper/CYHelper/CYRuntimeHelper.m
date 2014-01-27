@@ -13,7 +13,7 @@
 + (void)printCallStackWithCount:(NSUInteger)count
 {
     void* callstack[count];
-    int i, frames = backtrace(callstack, count);
+    int i, frames = backtrace(callstack, (int)count);
     char** strs = backtrace_symbols(callstack, frames);
     for (i = 0; i < frames; ++i) {
         NSLog(@"%@", [NSString stringWithCString:strs[i] encoding:NSUTF8StringEncoding]);
