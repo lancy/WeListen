@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF48DAE118A69EE000EAB01C /* WLMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */; };
+		BF48DAE618A69F1A00EAB01C /* WLMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */; };
 		BF49B579189461E70034B7AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B578189461E70034B7AC /* Foundation.framework */; };
 		BF49B57B189461E70034B7AC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B57A189461E70034B7AC /* CoreGraphics.framework */; };
 		BF49B57D189461E70034B7AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B57C189461E70034B7AC /* UIKit.framework */; };
@@ -47,6 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF48DADF18A69EE000EAB01C /* WLMusicPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMusicPlayerController.h; sourceTree = "<group>"; };
+		BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMusicPlayerController.m; sourceTree = "<group>"; };
+		BF48DAE418A69F1A00EAB01C /* WLMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMediaItem.h; sourceTree = "<group>"; };
+		BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMediaItem.m; sourceTree = "<group>"; };
 		BF49B575189461E70034B7AC /* WeListen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeListen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF49B578189461E70034B7AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BF49B57A189461E70034B7AC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,6 +125,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF48DAE218A69EE800EAB01C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BF48DAE318A69EF100EAB01C /* MusicPlayer */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BF48DAE318A69EF100EAB01C /* MusicPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				BF48DADF18A69EE000EAB01C /* WLMusicPlayerController.h */,
+				BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */,
+				BF48DAE418A69F1A00EAB01C /* WLMediaItem.h */,
+				BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */,
+			);
+			name = MusicPlayer;
+			sourceTree = "<group>";
+		};
 		BF49B56C189461E60034B7AC = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +181,7 @@
 			children = (
 				BF49B587189461E70034B7AC /* WLAppDelegate.h */,
 				BF49B588189461E70034B7AC /* WLAppDelegate.m */,
+				BF48DAE218A69EE800EAB01C /* Model */,
 				BF9FC6C218969E9F00EB9A2F /* Utils */,
 				BF9FC6AB189662C800EB9A2F /* ViewController */,
 				BF49B58A189461E70034B7AC /* Main.storyboard */,
@@ -404,10 +430,12 @@
 				BF9FC6C51896A84600EB9A2F /* WLArtistsViewController.m in Sources */,
 				BFEEB0641894F62A005B559B /* WLPlayingViewController.m in Sources */,
 				BF9FC6B81896933200EB9A2F /* WLPlaylistCell.m in Sources */,
+				BF48DAE618A69F1A00EAB01C /* WLMediaItem.m in Sources */,
 				BF49B5B518946E1C0034B7AC /* WLSongViewItem.m in Sources */,
 				BF49B5AF189468060034B7AC /* WLSongsViewController.m in Sources */,
 				BF49B5B218946E040034B7AC /* WLSongCell.m in Sources */,
 				BF9FC6C91896A88600EB9A2F /* WLArtistCell.m in Sources */,
+				BF48DAE118A69EE000EAB01C /* WLMusicPlayerController.m in Sources */,
 				BF9FC6BB1896934600EB9A2F /* WLPlaylistViewItem.m in Sources */,
 				BF9FC6BE1896987700EB9A2F /* WLConstants.m in Sources */,
 				BF9FC6B41896922000EB9A2F /* WLPlaylistsViewController.m in Sources */,
