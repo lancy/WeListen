@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		BF48DAE118A69EE000EAB01C /* WLMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */; };
 		BF48DAE618A69F1A00EAB01C /* WLMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */; };
+		BF48DAED18A6B2B500EAB01C /* CYAudioQueuePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE818A6B2B500EAB01C /* CYAudioQueuePlayer.m */; };
+		BF48DAEE18A6B2B500EAB01C /* CYAudioSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAEA18A6B2B500EAB01C /* CYAudioSessionManager.m */; };
+		BF48DAEF18A6B2B500EAB01C /* CYAudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAEC18A6B2B500EAB01C /* CYAudioStreamer.m */; };
 		BF49B579189461E70034B7AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B578189461E70034B7AC /* Foundation.framework */; };
 		BF49B57B189461E70034B7AC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B57A189461E70034B7AC /* CoreGraphics.framework */; };
 		BF49B57D189461E70034B7AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF49B57C189461E70034B7AC /* UIKit.framework */; };
@@ -53,6 +56,12 @@
 		BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMusicPlayerController.m; sourceTree = "<group>"; };
 		BF48DAE418A69F1A00EAB01C /* WLMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMediaItem.h; sourceTree = "<group>"; };
 		BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMediaItem.m; sourceTree = "<group>"; };
+		BF48DAE718A6B2B500EAB01C /* CYAudioQueuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAudioQueuePlayer.h; sourceTree = "<group>"; };
+		BF48DAE818A6B2B500EAB01C /* CYAudioQueuePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAudioQueuePlayer.m; sourceTree = "<group>"; };
+		BF48DAE918A6B2B500EAB01C /* CYAudioSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAudioSessionManager.h; sourceTree = "<group>"; };
+		BF48DAEA18A6B2B500EAB01C /* CYAudioSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAudioSessionManager.m; sourceTree = "<group>"; };
+		BF48DAEB18A6B2B500EAB01C /* CYAudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAudioStreamer.h; sourceTree = "<group>"; };
+		BF48DAEC18A6B2B500EAB01C /* CYAudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAudioStreamer.m; sourceTree = "<group>"; };
 		BF49B575189461E70034B7AC /* WeListen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeListen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF49B578189461E70034B7AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BF49B57A189461E70034B7AC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -128,12 +137,13 @@
 		BF48DAE218A69EE800EAB01C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BF48DAE318A69EF100EAB01C /* MusicPlayer */,
+				BF48DAF018A6B2C400EAB01C /* AudioQueuePlayer */,
+				BF48DAE318A69EF100EAB01C /* MusicPlayerController */,
 			);
 			name = Model;
 			sourceTree = "<group>";
 		};
-		BF48DAE318A69EF100EAB01C /* MusicPlayer */ = {
+		BF48DAE318A69EF100EAB01C /* MusicPlayerController */ = {
 			isa = PBXGroup;
 			children = (
 				BF48DADF18A69EE000EAB01C /* WLMusicPlayerController.h */,
@@ -141,7 +151,20 @@
 				BF48DAE418A69F1A00EAB01C /* WLMediaItem.h */,
 				BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */,
 			);
-			name = MusicPlayer;
+			name = MusicPlayerController;
+			sourceTree = "<group>";
+		};
+		BF48DAF018A6B2C400EAB01C /* AudioQueuePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				BF48DAE718A6B2B500EAB01C /* CYAudioQueuePlayer.h */,
+				BF48DAE818A6B2B500EAB01C /* CYAudioQueuePlayer.m */,
+				BF48DAE918A6B2B500EAB01C /* CYAudioSessionManager.h */,
+				BF48DAEA18A6B2B500EAB01C /* CYAudioSessionManager.m */,
+				BF48DAEB18A6B2B500EAB01C /* CYAudioStreamer.h */,
+				BF48DAEC18A6B2B500EAB01C /* CYAudioStreamer.m */,
+			);
+			name = AudioQueuePlayer;
 			sourceTree = "<group>";
 		};
 		BF49B56C189461E60034B7AC = {
@@ -426,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9FC6B1189690FF00EB9A2F /* UIViewController+NowPlayingButton.m in Sources */,
+				BF48DAEF18A6B2B500EAB01C /* CYAudioStreamer.m in Sources */,
 				BF9FC6CC1896A8A600EB9A2F /* WLArtistViewItem.m in Sources */,
 				BF9FC6C51896A84600EB9A2F /* WLArtistsViewController.m in Sources */,
 				BFEEB0641894F62A005B559B /* WLPlayingViewController.m in Sources */,
@@ -440,8 +464,10 @@
 				BF9FC6BE1896987700EB9A2F /* WLConstants.m in Sources */,
 				BF9FC6B41896922000EB9A2F /* WLPlaylistsViewController.m in Sources */,
 				BF9FC6C118969E9A00EB9A2F /* WLPlayerAgent.m in Sources */,
+				BF48DAEE18A6B2B500EAB01C /* CYAudioSessionManager.m in Sources */,
 				BF49B589189461E70034B7AC /* WLAppDelegate.m in Sources */,
 				BF49B585189461E70034B7AC /* main.m in Sources */,
+				BF48DAED18A6B2B500EAB01C /* CYAudioQueuePlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
