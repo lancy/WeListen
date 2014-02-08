@@ -16,4 +16,5 @@
     #import "WLConstants.h"
     #import "CYHelper.h"
     #import "ReactiveCocoa.h"
+    #import "RACEXTScope.h"
 #endif
