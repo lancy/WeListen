@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "WLMediaItem.h"
+#import "CYAudioStreamer.h"
+#import "CYAudioQueuePlayer.h"
 @import MediaPlayer;
 
 typedef NS_ENUM(NSInteger, WLMusicPlaybackState) {
@@ -32,17 +34,30 @@ typedef NS_ENUM(NSInteger, WLMusicShuffleMode) {
     WLMusicShuffleModeAlbums
 };
 
+typedef NS_ENUM(NSInteger, WLConnectionMode) {
+    WLConnectionModePublisher,
+    WLConnectionModeSubscriber
+};
+
 @interface WLMusicPlayerController : NSObject
 
 + (WLMusicPlayerController *)sharedPlayer;
+
+@property (nonatomic) WLConnectionMode connectionMode;
+@property (strong, nonatomic) CYAudioQueuePlayer *audioQueuePlayer;
+@property (strong, nonatomic) CYAudioStreamer *audioStreamer;
 
 @property (nonatomic, readonly) WLMusicPlaybackState playbackState;
 @property (nonatomic) WLMusicRepeatMode repeatMode;
 @property (nonatomic) WLMusicShuffleMode shuffleMode;
 
-@property (strong, nonatomic) WLMediaItem *nowPlayingItem;
+// use as publisher
+@property (strong, nonatomic) MPMediaItem *nowPlayingItem;
 @property (nonatomic, readonly) NSUInteger indexOfNowPlayingItem;
 @property (strong, nonatomic) NSArray *mediaQueue;
+
+// use as subscriber
+@property (strong, nonatomic) WLMediaItem *subscribedItem;
 
 @property (nonatomic) NSTimeInterval currentPlaybackTime;
 

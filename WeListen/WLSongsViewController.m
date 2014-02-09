@@ -73,9 +73,8 @@
     if ([segue.identifier isEqualToString:kShowPlayingViewControllerSegueIdentifier]) {
         if (sender) {
             WLSongViewItem *item = sender;
-            MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:self.songsItems];
             WLPlayingViewController *vc = segue.destinationViewController;
-            vc.selectedItemCollection = collection;
+            vc.selectedMediaQueue = self.songsItems;
             vc.selectedItem = item.mediaItem;
         }
     }

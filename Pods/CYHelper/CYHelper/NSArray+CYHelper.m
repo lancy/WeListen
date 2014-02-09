@@ -23,5 +23,16 @@
     return [self subarrayWithRange:range];
 }
 
+- (NSArray *)shuffledArray {
+    NSMutableArray *shuffledArray = [self mutableCopy];
+    NSUInteger count = [self count];
+    for (NSUInteger i = 0; i < count; i++) {
+        // Select a random element between i and end of array to swap with.
+        NSUInteger nElements = count - i;
+        NSUInteger n = arc4random() % nElements + i;
+        [shuffledArray exchangeObjectAtIndex:i withObjectAtIndex:n];
+    }
+    return shuffledArray;
+}
 
 @end

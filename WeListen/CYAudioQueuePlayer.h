@@ -29,6 +29,9 @@
 - (BOOL)isPlaying;
 - (void)startQueue;
 - (void)stopQueue;
+- (void)disposeQueue;
 - (void)pauseQueue;
+
+- (void)resetQueue;
 
 @end

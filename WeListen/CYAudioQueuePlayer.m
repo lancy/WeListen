@@ -115,9 +115,21 @@ typedef enum {
     AudioQueueDispose(_audioQueue, TRUE);
 }
 
+- (void)resetQueue {
+    _playerState = AudioQueuePlayerStatePause;
+    AudioQueueReset(_audioQueue);
+    self.currentEnqueuePacketIndex = 0;
+    _currentFillingBufferIndex = 0;
+    for (NSInteger i = 0; i < self.packetDatas.count; i++) {
+        dispatch_async(_packetEnqueueQueue, ^{
+            [self enqueueBuffer];
+        });
+    }
+}
+
 - (void)enqueuePacketData:(NSData *)packetData {
     [self.packetDatas addObject:packetData];
-    dispatch_sync(_packetEnqueueQueue, ^{
+    dispatch_async(_packetEnqueueQueue, ^{
         [self enqueueBuffer];
     });
 }
@@ -127,7 +139,7 @@ typedef enum {
 
 - (void)enqueueBuffer {
     @synchronized(self) {
-        if (self.currentEnqueuePacketIndex >= self.packetDatas.count) {
+        if (self.currentEnqueuePacketIndex >= self.packetDatas.count || _playerState == AudioQueuePlayerStateStopped) {
             return;
         }
         NSData *packetData = self.packetDatas[self.currentEnqueuePacketIndex];
@@ -222,7 +234,7 @@ void audioQueueFinishedPlayingCallback (
 
 - (void)didStopPlaying
 {
-    BOOL isFinished = (self.currentEnqueuePacketIndex < self.packetDatas.count) ? NO : YES;
+    BOOL isFinished = (self.currentEnqueuePacketIndex + 1 < self.packetDatas.count) ? NO : YES;
     if ([self.delegate respondsToSelector:@selector(player:didStopPlayingWithFinishedFlag:)]) {
         [self.delegate player:self didStopPlayingWithFinishedFlag:isFinished];
     }

@@ -12,6 +12,6 @@
 @interface WLPlayingViewController : UIViewController
 
 @property (strong, nonatomic) MPMediaItem *selectedItem;
-@property (strong, nonatomic) MPMediaItemCollection *selectedItemCollection;
+@property (strong, nonatomic) NSArray *selectedMediaQueue;
 
 @end

@@ -7,12 +7,12 @@
 //
 
 #import "UIViewController+NowPlayingButton.h"
-@import MediaPlayer;
+#import "WLMusicPlayerController.h"
 
 @implementation UIViewController (NowPlayingButton)
 
 - (void)updateNowPlayingButton {
-    MPMusicPlayerController *player = [MPMusicPlayerController applicationMusicPlayer];
+    WLMusicPlayerController *player = [WLMusicPlayerController sharedPlayer];
     if (player.nowPlayingItem != nil) {
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Now Playing" style:UIBarButtonItemStyleBordered target:self action:@selector(nowPlayingButtonPressed:)];
         [self.navigationItem setRightBarButtonItem:rightItem animated:YES];

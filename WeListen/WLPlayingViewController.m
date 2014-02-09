@@ -7,7 +7,7 @@
 //
 
 #import "WLPlayingViewController.h"
-#import "WLPlayerAgent.h"
+#import "WLMusicPlayerController.h"
 
 @interface WLPlayingViewController ()
 @property (strong, nonatomic) UILabel *indexLabel;
@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *repeatButton;
 @property (weak, nonatomic) IBOutlet UIButton *shuffleButton;
 
-@property (strong, nonatomic) MPMusicPlayerController *musicPlayer;
+@property (strong, nonatomic) WLMusicPlayerController *musicPlayer;
 
 @end
 
@@ -31,31 +31,32 @@
 }
 
 - (void)dealloc {
-    [self unObserveNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification];
-    [self unObserveNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification];
-    [self.musicPlayer endGeneratingPlaybackNotifications];
 }
 
 - (void)setupInterface {
     [self setupNavagationBar];
-    [self updateInterfaceWithMediaItem:[WLPlayerAgent sharedAgent].nowPlayingItem];
+    [self updateInterfaceWithMediaItem:self.musicPlayer.nowPlayingItem];
 }
 
 - (void)setupPlayer {
-    WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
-    
-    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-    if (self.selectedItemCollection && self.selectedItem) {
-        [self.musicPlayer setQueueWithItemCollection:self.selectedItemCollection];
-        [self.musicPlayer setNowPlayingItem:self.selectedItem];
-        [self.musicPlayer play];
-        
-        agent.nowPlayingItem = self.selectedItem;
-        agent.nowPlayingItemCollection = self.selectedItemCollection;
+    self.musicPlayer = [WLMusicPlayerController sharedPlayer];
+    if (self.selectedMediaQueue && self.selectedItem) {
+        [self.musicPlayer setMediaQueue:self.selectedMediaQueue];
+        if (self.selectedItem != self.musicPlayer.nowPlayingItem) {
+            [self.musicPlayer setNowPlayingItem:self.selectedItem];
+            [self.musicPlayer play];
+        }
     }
-    [self.musicPlayer beginGeneratingPlaybackNotifications];
-    [self observeNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification selector:@selector(handleNowPlayingItemDidChangedNotification:)];
-    [self observeNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification selector:@selector(handlePlaybackStateDidChangedNotification:)];
+    @weakify(self);
+    [[RACObserve(self.musicPlayer, nowPlayingItem) takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        if (x) {
+            [self updateInterfaceWithMediaItem:x];
+        }
+    }];
+    RAC(self.playbackButton, selected) = [[RACObserve(self.musicPlayer, playbackState) takeUntil:self.rac_willDeallocSignal] map:^id(NSNumber *stateValue) {
+        return @([stateValue integerValue] == WLMusicPlaybackStatePlaying);
+    }];
 }
 
 - (void)setupNavagationBar {
@@ -69,16 +70,14 @@
     self.artworkImageView.image = [artwork imageWithSize:self.artworkImageView.size];
     self.titleLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
     self.descriptionLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
-    WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
-    NSUInteger index = [[agent.nowPlayingItemCollection items] indexOfObject:agent.nowPlayingItem];
-    [self updateIndexLabelWithIndex:index count:agent.nowPlayingItemCollection.count];
+    [self updateIndexLabelWithIndex:self.musicPlayer.indexOfNowPlayingItem count:self.musicPlayer.mediaQueue.count];
     [self updatePlaybackButton];
     [self updateRepeatButton];
     [self updateShuffleButton];
 }
 
 - (void)updatePlaybackButton {
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+    if (self.musicPlayer.playbackState == WLMusicPlaybackStatePlaying) {
         self.playbackButton.selected = YES;
     } else {
         self.playbackButton.selected = NO;
@@ -87,16 +86,15 @@
 
 - (void)updateRepeatButton {
     NSString *buttonTitle;
-    MPMusicRepeatMode mode = [self currentRepeatMode];
+    WLMusicRepeatMode mode = self.musicPlayer.repeatMode;
     switch (mode) {
-        case MPMusicRepeatModeOne:
+        case WLMusicRepeatModeOne:
             buttonTitle = @"Repeat One";
             break;
-        case MPMusicRepeatModeAll:
+        case WLMusicRepeatModeAll:
             buttonTitle = @"Repeat All";
             break;
-        case MPMusicRepeatModeNone:
-        case MPMusicRepeatModeDefault:
+        case WLMusicRepeatModeNone:
         default:
             buttonTitle = @"Repeat None";
             break;
@@ -104,38 +102,21 @@
     [self.repeatButton setTitle:buttonTitle forState:UIControlStateNormal];
 }
 
-- (MPMusicRepeatMode)currentRepeatMode {
-    MPMusicRepeatMode mode = self.musicPlayer.repeatMode;
-    if (mode == MPMusicRepeatModeDefault) {
-        mode = [MPMusicPlayerController iPodMusicPlayer].repeatMode;
-    }
-    return mode;
-}
-
 - (void)updateShuffleButton {
     
     NSString *buttonTitle;
-    MPMusicShuffleMode mode = [self currentShuffleMode];
+    WLMusicShuffleMode mode = self.musicPlayer.shuffleMode;
     switch (mode) {
-        case MPMusicShuffleModeSongs:
-        case MPMusicShuffleModeAlbums:
+        case WLMusicShuffleModeSongs:
+        case WLMusicShuffleModeAlbums:
             buttonTitle = @"Shuffle All";
             break;
-        case MPMusicShuffleModeOff:
-        case MPMusicShuffleModeDefault:
+        case WLMusicShuffleModeOff:
         default:
             buttonTitle = @"Shuffle Off";
             break;
     }
     [self.shuffleButton setTitle:buttonTitle forState:UIControlStateNormal];
-}
-
-- (MPMusicShuffleMode)currentShuffleMode {
-    MPMusicShuffleMode mode = self.musicPlayer.shuffleMode;
-    if (mode == MPMusicShuffleModeDefault) {
-        mode = [MPMusicPlayerController iPodMusicPlayer].shuffleMode;
-    }
-    return mode;
 }
 
 - (void)updateIndexLabelWithIndex:(NSUInteger)index count:(NSUInteger)count {
@@ -153,7 +134,7 @@
 }
 
 - (IBAction)playbackButtonPressed:(id)sender {
-    if ([self.musicPlayer playbackState] == MPMusicPlaybackStatePlaying) {
+    if ([self.musicPlayer playbackState] == WLMusicPlaybackStatePlaying) {
         [self.musicPlayer pause];
     } else {
         [self.musicPlayer play];
@@ -173,19 +154,18 @@
 }
 
 - (IBAction)repeatButtonPressed:(id)sender {
-    MPMusicRepeatMode currentMode = [self currentRepeatMode];
-    MPMusicRepeatMode newMode = currentMode;
+    WLMusicRepeatMode currentMode = self.musicPlayer.repeatMode;
+    WLMusicRepeatMode newMode = currentMode;
     switch (currentMode) {
-        case MPMusicRepeatModeOne:
-            newMode = MPMusicRepeatModeAll;
+        case WLMusicRepeatModeOne:
+            newMode = WLMusicRepeatModeAll;
             break;
-        case MPMusicRepeatModeAll:
-            newMode = MPMusicRepeatModeNone;
+        case WLMusicRepeatModeAll:
+            newMode = WLMusicRepeatModeNone;
             break;
-        case MPMusicRepeatModeDefault:
-        case MPMusicRepeatModeNone:
+        case WLMusicRepeatModeNone:
         default:
-            newMode = MPMusicRepeatModeOne;
+            newMode = WLMusicRepeatModeOne;
             break;
     }
     [self.musicPlayer setRepeatMode:newMode];
@@ -193,34 +173,20 @@
 }
 
 - (IBAction)shuffleButtonPressed:(id)sender {
-    MPMusicShuffleMode currentMode = [self currentShuffleMode];
-    MPMusicShuffleMode newMode = currentMode;
+    WLMusicShuffleMode currentMode = self.musicPlayer.shuffleMode;
+    WLMusicShuffleMode newMode = currentMode;
     switch (currentMode) {
-        case MPMusicShuffleModeAlbums:
-        case MPMusicShuffleModeSongs:
-            newMode = MPMusicShuffleModeOff;
+        case WLMusicShuffleModeAlbums:
+        case WLMusicShuffleModeSongs:
+            newMode = WLMusicShuffleModeOff;
             break;
-        case MPMusicShuffleModeOff:
+        case WLMusicShuffleModeOff:
         default:
-            newMode = MPMusicShuffleModeSongs;
+            newMode = WLMusicShuffleModeSongs;
             break;
     }
     [self.musicPlayer setShuffleMode:newMode];
     [self updateShuffleButton];
-}
-
-- (void)handleNowPlayingItemDidChangedNotification:(NSNotification *)notification {
-    if (notification.object == self.musicPlayer) {
-        WLPlayerAgent *agent = [WLPlayerAgent sharedAgent];
-        agent.nowPlayingItem = [self.musicPlayer nowPlayingItem];
-        [self updateInterfaceWithMediaItem:agent.nowPlayingItem];
-    }
-}
-
-- (void)handlePlaybackStateDidChangedNotification:(NSNotification *)notification {
-    if (notification.object == self.musicPlayer) {
-        [self updatePlaybackButton];
-    }
 }
 
 @end

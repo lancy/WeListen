@@ -12,4 +12,6 @@
 - (NSArray *)subarrayFromIndex:(NSUInteger)index;
 - (NSArray *)subarrayToIndex:(NSUInteger)index;
 
+- (NSArray *)shuffledArray;
+
 @end
