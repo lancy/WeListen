@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "WLMediaItem.h"
 #import "CYAudioStreamer.h"
+#import "WLConnectionCenter.h"
 #import "CYAudioQueuePlayer.h"
 @import MediaPlayer;
 
@@ -30,8 +31,7 @@ typedef NS_ENUM(NSInteger, WLMusicRepeatMode) {
 
 typedef NS_ENUM(NSInteger, WLMusicShuffleMode) {
     WLMusicShuffleModeOff,
-    WLMusicShuffleModeSongs,
-    WLMusicShuffleModeAlbums
+    WLMusicShuffleModeOn
 };
 
 typedef NS_ENUM(NSInteger, WLConnectionMode) {
@@ -43,7 +43,8 @@ typedef NS_ENUM(NSInteger, WLConnectionMode) {
 
 + (WLMusicPlayerController *)sharedPlayer;
 
-@property (nonatomic) WLConnectionMode connectionMode;
+@property (strong, nonatomic, readonly) WLConnectionCenter *connectionCenter;
+@property (nonatomic, readonly) WLConnectionMode connectionMode;
 @property (strong, nonatomic) CYAudioQueuePlayer *audioQueuePlayer;
 @property (strong, nonatomic) CYAudioStreamer *audioStreamer;
 

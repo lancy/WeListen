@@ -279,7 +279,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="F9l-6f-yQu"/>
+                    <navigationItem key="navigationItem" id="F9l-6f-yQu">
+                        <barButtonItem key="rightBarButtonItem" title="Connect" id="3dK-dD-dfj">
+                            <connections>
+                                <action selector="connectButtonPressed:" destination="O7D-aW-rNz" id="VEG-Uk-kKU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="artworkImageView" destination="34b-eE-ecn" id="gww-yf-RKZ"/>

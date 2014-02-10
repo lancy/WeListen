@@ -73,9 +73,7 @@ typedef enum {
 }
 
 - (void)dealloc {
-    for (NSUInteger i = 0; i < kNumberOfPlaybackBuffers; ++i) {
-        free(_audioQueueBuffers[i]);
-    }
+    [self disposeQueue];
     pthread_mutex_destroy(&_queueBufferInuseMutex);
     pthread_cond_destroy(&_queueBufferReadyCondition);
 }

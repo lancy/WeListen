@@ -8,11 +8,14 @@
 
 #import "WLMusicPlayerController.h"
 #import "CYAudioSessionManager.h"
-@interface WLMusicPlayerController () <CYAudioStreamerDelegate, CYAudioQueuePlayerDelegate>
+
+@interface WLMusicPlayerController () <CYAudioStreamerDelegate, CYAudioQueuePlayerDelegate, WLConnectionCenterDelegate>
+
+@property (strong, nonatomic, readwrite) WLConnectionCenter *connectionCenter;
+@property (nonatomic, readwrite) WLConnectionMode connectionMode;
 
 @property (nonatomic) WLMusicPlaybackState playbackState;
 @property (strong, nonatomic) CYAudioSessionManager *audioSessionManager;
-
 @property (strong, nonatomic) NSArray *shuffledMediaQueue;
 
 @end
@@ -25,6 +28,7 @@
     dispatch_once(&pred, ^{
         _sharedPlayer = [[WLMusicPlayerController alloc] init];
         [_sharedPlayer setupAudioSessionManager];
+        [_sharedPlayer setupConnectionManager];
     });
     return _sharedPlayer;
 }
@@ -32,6 +36,10 @@
 
 - (void)setupAudioSessionManager {
     self.audioSessionManager = [[CYAudioSessionManager alloc] init];
+}
+
+- (void)setupConnectionManager {
+    self.connectionCenter = [[WLConnectionCenter alloc] initWithDelegate:self];
 }
 
 - (void)setNowPlayingItem:(MPMediaItem *)nowPlayingItem {
@@ -60,11 +68,17 @@
 }
 
 - (void)startStreaming {
+    self.connectionMode = WLConnectionModePublisher;
     AVURLAsset *asset = [AVURLAsset assetWithURL:[self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]];
     self.audioStreamer = [[CYAudioStreamer alloc] initWithUrlAsset:asset delegate:self];
     
     AudioStreamBasicDescription audioStreamBasicDescription = [self.audioStreamer audioStreamBasicDescription];
     [self setupAudioQueuePlayerWithASDB:audioStreamBasicDescription];
+    
+    WLMediaItem *sendItem = [[WLMediaItem alloc] initWithMPMediaItem:self.nowPlayingItem];
+    sendItem.asdb = audioStreamBasicDescription;
+    WLConnectionSignal *signal = [WLConnectionSignal signalWithType:WLConnectionSignalTypeDataMediaItem payload:sendItem];
+    [self.connectionCenter sendSignal:signal];
     
     [self.audioStreamer startStreaming];
 }
@@ -78,30 +92,60 @@
 #pragma mark - Player Controller
 
 - (void)play {
+    [self playWithoutSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlPlay]];
+}
+
+- (void)playWithoutSignal {
     self.playbackState = WLMusicPlaybackStatePlaying;
     [self.audioQueuePlayer startQueue];
 }
 
 - (void)pause {
+    [self pauseWithoutSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlPause]];
+}
+
+- (void)pauseWithoutSignal {
     self.playbackState = WLMusicPlaybackStatePaused;
     [self.audioQueuePlayer pauseQueue];
 }
 
 - (void)stop {
+    [self stopWithoutSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlPause]];
+}
+
+- (void)stopWithoutSignal {
     self.playbackState = WLMusicPlaybackStateStopped;
     [self.audioQueuePlayer stopQueue];
 }
 
 - (void)skipToNextItem {
+    [self skipToNextItemWithoutSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlSkipToNext]];
+}
+
+- (void)skipToNextItemWithoutSignal {
     [self skipToItemWithOffset:+1];
 }
 
 - (void)skipToBeginning {
+    [self skipToBeginningWithoutSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlSkipToBeginning]];
+}
+
+- (void)skipToBeginningWithoutSignal {
     [self.audioQueuePlayer resetQueue];
     [self play];
 }
 
 - (void)skipToPreviousItem {
+    [self skipToPreviousItemWithougSignal];
+    [self.connectionCenter sendSignal:[WLConnectionSignal signalWithType:WLConnectionSignalTypeControlSkipToPrevious]];
+}
+
+- (void)skipToPreviousItemWithougSignal {
     [self skipToItemWithOffset:-1];
 }
 
@@ -136,6 +180,7 @@
 #pragma mark - Audio Streamer Callback Methods
 - (void)streamer:(CYAudioStreamer *)streamer didGetPacketData:(NSData *)packetData {
     [self.audioQueuePlayer enqueuePacketData:packetData];
+    [self.connectionCenter sendAudioPacketData:packetData];
 }
 
 #pragma mark - Audio QueuePlayer Callback Methods 
@@ -145,4 +190,53 @@
     }
 }
 
+#pragma mark - connection center methods 
+
+- (void)connectionCenterDidGetSignal:(WLConnectionSignal *)signal {
+    NSLog(@"did get signal: %ld", signal.type);
+    switch (signal.type) {
+        case WLConnectionSignalTypeDataMediaItem:
+            [self cleanup];
+            self.connectionMode = WLConnectionModeSubscriber;
+            self.subscribedItem = signal.payload;
+            [self setupAudioQueuePlayerWithASDB:self.subscribedItem.asdb];
+            break;
+        case WLConnectionSignalTypeControlPlay:
+            [self playWithoutSignal];
+            break;
+        case WLConnectionSignalTypeControlPause:
+            [self pauseWithoutSignal];
+            break;
+        case WLConnectionSignalTypeControlSkipToNext:
+//            [self skipToNextItemWithoutSignal];
+            break;
+        case WLConnectionSignalTypeControlSkipToPrevious:
+//            [self skipToPreviousItemWithougSignal];
+            break;
+        case WLConnectionSignalTypeControlSkipToBeginning:
+//            [self skipToBeginningWithoutSignal];
+            break;
+        case WLConnectionSignalTypeShuffleOff:
+            self.shuffleMode = WLMusicShuffleModeOff;
+            break;
+        case WLConnectionSignalTypeShuffleOn:
+            self.shuffleMode = WLMusicShuffleModeOn;
+            break;
+        case WLConnectionSignalTypeRepeatAll:
+            self.repeatMode = WLMusicRepeatModeAll;
+            break;
+        case WLConnectionSignalTypeRepeatNone:
+            self.repeatMode = WLMusicRepeatModeNone;
+            break;
+        case WLConnectionSignalTypeRepeatOne:
+            self.repeatMode = WLMusicRepeatModeOne;
+        case WLConnectionSignalTypeDataAudioPacket:
+        default:
+            break;
+    }
+}
+
+- (void)connectionCenterDidGetAudioPacketData:(NSData *)packetData {
+    [self.audioQueuePlayer enqueuePacketData:packetData];
+}
 @end

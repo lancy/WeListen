@@ -107,9 +107,8 @@
     NSString *buttonTitle;
     WLMusicShuffleMode mode = self.musicPlayer.shuffleMode;
     switch (mode) {
-        case WLMusicShuffleModeSongs:
-        case WLMusicShuffleModeAlbums:
-            buttonTitle = @"Shuffle All";
+        case WLMusicShuffleModeOn:
+            buttonTitle = @"Shuffle On";
             break;
         case WLMusicShuffleModeOff:
         default:
@@ -131,6 +130,10 @@
     [attrString setAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:13]} range:countRange];
     self.indexLabel.font = [UIFont systemFontOfSize:13];
     self.indexLabel.attributedText = attrString;
+}
+
+- (IBAction)connectButtonPressed:(id)sender {
+    [self.musicPlayer.connectionCenter presentBrowserViewControllerInViewController:self];
 }
 
 - (IBAction)playbackButtonPressed:(id)sender {
@@ -176,13 +179,12 @@
     WLMusicShuffleMode currentMode = self.musicPlayer.shuffleMode;
     WLMusicShuffleMode newMode = currentMode;
     switch (currentMode) {
-        case WLMusicShuffleModeAlbums:
-        case WLMusicShuffleModeSongs:
+        case WLMusicShuffleModeOn:
             newMode = WLMusicShuffleModeOff;
             break;
         case WLMusicShuffleModeOff:
         default:
-            newMode = WLMusicShuffleModeSongs;
+            newMode = WLMusicShuffleModeOn;
             break;
     }
     [self.musicPlayer setShuffleMode:newMode];
