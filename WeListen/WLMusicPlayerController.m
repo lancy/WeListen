@@ -193,7 +193,7 @@
 #pragma mark - connection center methods 
 
 - (void)connectionCenterDidGetSignal:(WLConnectionSignal *)signal {
-    NSLog(@"did get signal: %ld", signal.type);
+    NSLog(@"did get signal: %d", signal.type);
     switch (signal.type) {
         case WLConnectionSignalTypeDataMediaItem:
             [self cleanup];

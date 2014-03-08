@@ -29,7 +29,7 @@
     self.artworkImageView.image = [artwork imageWithSize:self.artworkImageView.size];
     self.titleLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
     if (collection.items.count > 1) {
-        self.descriptionLabel.text = [NSString stringWithFormat:@"%lu songs", collection.items.count];
+        self.descriptionLabel.text = [NSString stringWithFormat:@"%d songs", collection.items.count];
     } else {
         self.descriptionLabel.text = @"1 song";
     }
