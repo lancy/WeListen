@@ -132,10 +132,6 @@
     self.indexLabel.attributedText = attrString;
 }
 
-- (IBAction)connectButtonPressed:(id)sender {
-    [self.musicPlayer.connectionCenter presentBrowserViewControllerInViewController:self];
-}
-
 - (IBAction)playbackButtonPressed:(id)sender {
     if ([self.musicPlayer playbackState] == WLMusicPlaybackStatePlaying) {
         [self.musicPlayer pause];
