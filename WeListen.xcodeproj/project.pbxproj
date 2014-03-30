@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF43CA3118E82D40001CEFFF /* UIViewController+ConnectionButten.m in Sources */ = {isa = PBXBuildFile; fileRef = BF43CA3018E82D40001CEFFF /* UIViewController+ConnectionButten.m */; };
 		BF48DAE118A69EE000EAB01C /* WLMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */; };
 		BF48DAE618A69F1A00EAB01C /* WLMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE518A69F1A00EAB01C /* WLMediaItem.m */; };
 		BF48DAED18A6B2B500EAB01C /* CYAudioQueuePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48DAE818A6B2B500EAB01C /* CYAudioQueuePlayer.m */; };
@@ -54,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF43CA2F18E82D40001CEFFF /* UIViewController+ConnectionButten.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ConnectionButten.h"; sourceTree = "<group>"; };
+		BF43CA3018E82D40001CEFFF /* UIViewController+ConnectionButten.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ConnectionButten.m"; sourceTree = "<group>"; };
 		BF48DADF18A69EE000EAB01C /* WLMusicPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMusicPlayerController.h; sourceTree = "<group>"; };
 		BF48DAE018A69EE000EAB01C /* WLMusicPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMusicPlayerController.m; sourceTree = "<group>"; };
 		BF48DAE418A69F1A00EAB01C /* WLMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMediaItem.h; sourceTree = "<group>"; };
@@ -329,6 +332,8 @@
 				BFEEB0631894F62A005B559B /* WLPlayingViewController.m */,
 				BF9FC6AF189690FF00EB9A2F /* UIViewController+NowPlayingButton.h */,
 				BF9FC6B0189690FF00EB9A2F /* UIViewController+NowPlayingButton.m */,
+				BF43CA2F18E82D40001CEFFF /* UIViewController+ConnectionButten.h */,
+				BF43CA3018E82D40001CEFFF /* UIViewController+ConnectionButten.m */,
 			);
 			name = NowPlaying;
 			sourceTree = "<group>";
@@ -483,6 +488,7 @@
 				BF9FC6BE1896987700EB9A2F /* WLConstants.m in Sources */,
 				BF9FC6B41896922000EB9A2F /* WLPlaylistsViewController.m in Sources */,
 				BF6A33DE18A9246300DAB418 /* WLConnectionSignal.m in Sources */,
+				BF43CA3118E82D40001CEFFF /* UIViewController+ConnectionButten.m in Sources */,
 				BF9FC6C118969E9A00EB9A2F /* WLPlayerAgent.m in Sources */,
 				BF48DAEE18A6B2B500EAB01C /* CYAudioSessionManager.m in Sources */,
 				BF49B589189461E70034B7AC /* WLAppDelegate.m in Sources */,

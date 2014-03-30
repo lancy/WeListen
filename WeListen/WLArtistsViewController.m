@@ -9,6 +9,7 @@
 #import "WLArtistsViewController.h"
 #import "RETableViewManager.h"
 #import "UIViewController+NowPlayingButton.h"
+#import "UIViewController+ConnectionButten.h"
 #import "WLArtistViewItem.h"
 #import "WLSongsViewController.h"
 @import MediaPlayer;
@@ -28,6 +29,7 @@
     [super viewWillAppear:animated];
     [self.currentSelectedItem deselectRowAnimated:animated];
     [self updateNowPlayingButton];
+    [self updateConnectionButton];
 }
 
 - (void)viewDidLoad

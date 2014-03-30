@@ -8,6 +8,7 @@
 
 #import "WLPlaylistsViewController.h"
 #import "UIViewController+NowPlayingButton.h"
+#import "UIViewController+ConnectionButten.h"
 #import "RETableViewManager.h"
 #import "WLPlaylistViewItem.h"
 #import "WLPlayingViewController.h"
@@ -30,6 +31,7 @@
     [super viewWillAppear:animated];
     [self.currentSelectedItem deselectRowAnimated:animated];
     [self updateNowPlayingButton];
+    [self updateConnectionButton];
 }
 
 - (void)viewDidLoad {

@@ -11,6 +11,7 @@
 #import "WLSongViewItem.h"
 #import "WLPlayingViewController.h"
 #import "UIViewController+NowPlayingButton.h"
+#import "UIViewController+ConnectionButten.h"
 @import MediaPlayer;
 
 @interface WLSongsViewController ()
@@ -27,6 +28,7 @@
     [super viewWillAppear:animated];
     [self.currentSelectedItem deselectRowAnimated:animated];
     [self updateNowPlayingButton];
+    [self updateConnectionButton];
 }
 
 - (void)viewDidLoad {
